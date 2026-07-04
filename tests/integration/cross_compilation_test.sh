@@ -37,4 +37,22 @@ echo "Running build with aarch64 cross toolchain..."
   --config=aarch64 \
   //...
 
-echo "Success: Integration targets compiled and verified successfully."
+echo "Reconfiguring integration workspace to use Halide version 14.0.0..."
+cat << 'EOF' >> MODULE.bazel
+
+halide = use_extension("@rules_halide//:extensions.bzl", "halide")
+halide.toolchain(version = "14.0.0")
+use_repo(halide, "halide_prebuilt_pkg")
+EOF
+
+# Fetch and build using the alternative version to verify dynamic toolchain switching works
+echo "Running build & test with Halide 14.0.0..."
+"${BIT_BAZEL_BINARY}" \
+  --output_user_root="${TEST_TMPDIR}/output_user_root" \
+  --bazelrc=.bazelrc \
+  test \
+  --repository_cache="${TEST_TMPDIR}/repository_cache" \
+  --test_output=errors \
+  //...
+
+echo "Success: Integration targets compiled and verified successfully across multiple Halide versions."
