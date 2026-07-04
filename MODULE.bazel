@@ -22,3 +22,6 @@ halide = use_extension("//:extensions.bzl", "halide")
 use_repo(halide, "halide_prebuilt_pkg")
 
 register_toolchains("//internal:halide_prebuilt_toolchain")
+
+bazel_dep(name = "aspect_rules_lint", version = "2.7.2", dev_dependency = True)
+bazel_dep(name = "buildifier_prebuilt", version = "8.2.1.1", dev_dependency = True)

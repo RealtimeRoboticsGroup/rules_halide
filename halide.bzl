@@ -6,28 +6,27 @@ load("@rules_cc//cc:cc_library.bzl", "cc_library")
 
 def _generator_compatible_with():
     compat_dict = {}
-    
+
     # Check linux_arm64 target compatibility
     if HOST_PLATFORM == "linux-aarch64":
         compat_dict["@rules_halide//internal:linux_arm64"] = []
     else:
         compat_dict["@rules_halide//internal:linux_arm64"] = ["@platforms//:incompatible"]
-        
+
     # Check macos_arm64 target compatibility
     if HOST_PLATFORM == "macos-arm64":
         compat_dict["@rules_halide//internal:macos_arm64"] = []
     else:
         compat_dict["@rules_halide//internal:macos_arm64"] = ["@platforms//:incompatible"]
-        
+
     # Check linux_x86_64 target compatibility
     if HOST_PLATFORM == "linux-x86_64":
         compat_dict["@rules_halide//internal:linux_x86_64"] = []
     else:
         compat_dict["@rules_halide//internal:linux_x86_64"] = ["@platforms//:incompatible"]
-        
+
     compat_dict["//conditions:default"] = []
     return select(compat_dict)
-
 
 def _halide_target_select():
     """Returns the Halide target string based on platform."""

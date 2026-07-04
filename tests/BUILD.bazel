@@ -1,5 +1,5 @@
-load("//:halide.bzl", "halide_library")
 load("@rules_cc//cc:cc_test.bzl", "cc_test")
+load("//:halide.bzl", "halide_library")
 
 package(default_visibility = ["//visibility:public"])
 
