@@ -1,0 +1,30 @@
+load("@bazel_binaries//:defs.bzl", "bazel_binaries")
+load("@rules_bazel_integration_test//bazel_integration_test:defs.bzl", "bazel_integration_test")
+load("@rules_shell//shell:sh_binary.bzl", "sh_binary")
+
+package(default_visibility = ["//visibility:public"])
+
+sh_binary(
+    name = "cross_compilation_test_runner",
+    srcs = ["cross_compilation_test.sh"],
+    data = [
+        "@bazel_tools//tools/bash/runfiles",
+    ],
+)
+
+bazel_integration_test(
+    name = "cross_compilation_integration_test",
+    bazel_binaries = bazel_binaries,
+    bazel_version = "9.0.0",
+    tags = [
+        "requires-network",
+    ],
+    target_compatible_with = ["@platforms//os:linux"],
+    test_runner = ":cross_compilation_test_runner",
+    workspace_files = [
+        "//tests/integration/test_workspace:workspace_files",
+    ] + [
+        "//:local_repository_files",
+    ],
+    workspace_path = "test_workspace",
+)

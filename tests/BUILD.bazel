@@ -1,0 +1,19 @@
+load("//:halide.bzl", "halide_library")
+load("@rules_cc//cc:cc_test.bzl", "cc_test")
+
+package(default_visibility = ["//visibility:public"])
+
+halide_library(
+    name = "simple_scale",
+    src = "simple_generator.cc",
+    args = "scale=2.0",
+    function = "simple_scale",
+)
+
+cc_test(
+    name = "simple_test",
+    srcs = ["simple_test.cc"],
+    deps = [
+        ":simple_scale",
+    ],
+)

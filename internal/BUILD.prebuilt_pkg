@@ -39,6 +39,16 @@ cc_library(
         "include/HalideRuntime.h",
     ],
     includes = ["include"],
+    linkopts = select({
+        "@platforms//os:macos": [
+            "-lpthread",
+            "-ldl",
+        ],
+        "//conditions:default": [
+            "-lpthread",
+            "-ldl",
+        ],
+    }),
     visibility = ["//visibility:public"],
 )
 

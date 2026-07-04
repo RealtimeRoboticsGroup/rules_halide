@@ -54,3 +54,18 @@ cc_library(
     }),
     deps = [":runtime_alias"],
 )
+
+filegroup(
+    name = "local_repository_files",
+    srcs = glob(
+        ["**/*"],
+        exclude = [
+            "bazel-*/**",
+            ".git/**",
+            "MODULE.bazel.lock",
+        ],
+    ) + [
+        "//internal:internal_files",
+    ],
+    visibility = ["//visibility:public"],
+)

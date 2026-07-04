@@ -1,0 +1,4 @@
+build --incompatible_enable_cc_toolchain_resolution
+
+build:aarch64 --platforms=//:aarch64_platform
+build:aarch64 --extra_toolchains=@j5_cross_toolchain//:cc-toolchain-aarch64-linux
