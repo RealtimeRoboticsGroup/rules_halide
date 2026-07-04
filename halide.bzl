@@ -1,7 +1,7 @@
 """Starlark rules for ahead-of-time (AOT) Halide compilation.
 
-This module provides `halide_library` to compile Halide generators natively
-for the host platform, run them to produce AOT compiled code (header and object files)
+This module provides the `halide_library` symbolic macro to compile Halide generators
+natively for the host platform, run them to produce AOT compiled code (header and object files)
 compatible with target configurations, and expose them as standard C++ dependencies.
 """
 
@@ -34,26 +34,11 @@ def _halide_compatible_with():
         "//conditions:default": ["@platforms//:incompatible"],
     })
 
-def halide_library(name, src, function, args, visibility = None):
-    """Compiles a Halide generator ahead-of-time to a C++ library target.
+def _halide_library_impl(name, visibility, src, function, args = ""):
+    """Implementation function for the halide_library symbolic macro.
 
-    This macro defines three targets:
-    1. `<name>_generator` (cc_binary): The native C++ generator binary compiled for
-       the host. It compiles the Halide pipeline. Marked `target_compatible_with = HOST_CONSTRAINTS`
-       so that wildcard builds don't compile it for target architectures (where libHalide is missing),
-       but it remains compatible in the exec/host configuration to be run as a tool.
-    2. `generate_<name>` (genrule): Runs the generator binary with the resolved target flags
-       to output the header file (`<name>.h`), the object file (`<name>.o`), and the
-       conceptual statement file (`<name>.stmt.html`).
-    3. `<name>` (cc_library): Exposes the generated header and object files as a C++ library
-       ready to be linked by other targets.
-
-    Args:
-        name: Name of the generated cc_library target.
-        src: The C++ source file containing the Halide generator definition.
-        function: Name of the registered Halide generator to execute.
-        args: Extra arguments to pass to the generator binary (e.g., 'scale=2.5').
-        visibility: Target visibility list.
+    Instantiates the native compile binary target (generator), the AOT generation target
+    (genrule), and the public C++ library dependency target.
     """
     cc_binary(
         name = name + "_generator",
@@ -67,7 +52,7 @@ def halide_library(name, src, function, args, visibility = None):
         target_compatible_with = HOST_CONSTRAINTS,
     )
     native.genrule(
-        name = "generate_" + name,
+        name = name + "_generate",
         outs = [
             name + ".h",
             name + ".o",
@@ -88,3 +73,35 @@ def halide_library(name, src, function, args, visibility = None):
             "@rules_halide//:runtime",
         ],
     )
+
+halide_library = macro(
+    doc = """Compiles a Halide generator ahead-of-time to a C++ library target.
+
+    This macro defines a generator binary compiled for the host, runs it inside a genrule
+    to produce optimized pipeline object and header files, and packages them as a C++ library.
+
+    Args:
+        src: The C++ source file containing the Halide generator definition.
+        function: Name of the registered Halide generator to execute.
+        args: Extra arguments to pass to the generator binary (e.g. 'scale=2.5').
+    """,
+    implementation = _halide_library_impl,
+    attrs = {
+        "src": attr.label(
+            doc = "The C++ source file containing the Halide generator definition.",
+            mandatory = True,
+            allow_single_file = True,
+            configurable = False,
+        ),
+        "function": attr.string(
+            doc = "Name of the registered Halide generator to execute.",
+            mandatory = True,
+            configurable = False,
+        ),
+        "args": attr.string(
+            doc = "Extra arguments to pass to the generator binary.",
+            default = "",
+            configurable = False,
+        ),
+    },
+)

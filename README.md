@@ -103,10 +103,10 @@ int main() {
 
 ---
 
-## Cross-Compilation
+## Supported Platforms
 
-`rules_halide` uses Bazel platforms and toolchains to determine the proper target architecture when building ahead-of-time pipeline code.
+`rules_halide` supports building and executing Halide pipelines on the following host and target platforms:
 
-When cross-compiling (for example to `aarch64` Linux using `--platforms=//:my_aarch64_platform` and `toolchains_llvm`), `rules_halide` will automatically invoke the generator with the correct target string (e.g. `target=arm-64-linux`) and produce compatible machine code for your destination platform.
-
-The generator build tool itself will natively compile for your host configuration (e.g. `x86_64` Linux) to run as a code-generation tool during the build.
+- **Linux x86_64**
+- **Linux AArch64**
+- **macOS ARM64** (Apple Silicon)
