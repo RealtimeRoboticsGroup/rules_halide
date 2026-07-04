@@ -55,7 +55,8 @@ jobs:
             build-essential \
             unzip \
             python3 \
-            libxml2
+            libxml2 \
+            zlib1g-dev
 
       - name: Install Bazelisk
         run: |
