@@ -34,16 +34,3 @@ cc_test(
         ":simple_scale",
     ],
 )
-
-filegroup(
-    name = "workspace_files",
-    srcs = [
-        ".bazelrc",
-        "BUILD.bazel",
-        "MODULE.bazel",
-        "chromium_sysroot.BUILD",
-        "simple_generator.cc",
-        "simple_test.cc",
-    ],
-    visibility = ["//visibility:public"],
-)

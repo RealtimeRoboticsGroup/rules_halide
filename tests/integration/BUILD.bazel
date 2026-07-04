@@ -22,7 +22,12 @@ bazel_integration_test(
     target_compatible_with = ["@platforms//os:linux"],
     test_runner = ":cross_compilation_test_runner",
     workspace_files = [
-        "//tests/integration/test_workspace:workspace_files",
+        "test_workspace/.bazelrc",
+        "test_workspace/BUILD.bazel",
+        "test_workspace/MODULE.bazel",
+        "test_workspace/chromium_sysroot.BUILD",
+        "test_workspace/simple_generator.cc",
+        "test_workspace/simple_test.cc",
     ] + [
         "//:local_repository_files",
     ],
