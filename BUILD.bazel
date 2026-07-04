@@ -1,0 +1,56 @@
+load("@rules_cc//cc:cc_library.bzl", "cc_library")
+load("//internal:toolchain.bzl", "halide_alias")
+
+package(default_visibility = ["//visibility:public"])
+
+toolchain_type(name = "toolchain_type")
+
+config_setting(
+    name = "msan_enabled",
+    values = {"features": "msan"},
+)
+
+halide_alias(
+    name = "halide_alias",
+    target_type = "halide",
+    visibility = ["//visibility:private"],
+)
+
+halide_alias(
+    name = "gengen_alias",
+    target_type = "gengen",
+    visibility = ["//visibility:private"],
+)
+
+halide_alias(
+    name = "runtime_alias",
+    target_type = "runtime",
+    visibility = ["//visibility:private"],
+)
+
+cc_library(
+    name = "halide",
+    target_compatible_with = select({
+        ":msan_enabled": ["@platforms//:incompatible"],
+        "//conditions:default": [],
+    }),
+    deps = [":halide_alias"],
+)
+
+cc_library(
+    name = "gengen",
+    target_compatible_with = select({
+        ":msan_enabled": ["@platforms//:incompatible"],
+        "//conditions:default": [],
+    }),
+    deps = [":gengen_alias"],
+)
+
+cc_library(
+    name = "runtime",
+    target_compatible_with = select({
+        ":msan_enabled": ["@platforms//:incompatible"],
+        "//conditions:default": [],
+    }),
+    deps = [":runtime_alias"],
+)

@@ -1,0 +1,13 @@
+module(
+    name = "rules_halide",
+    version = "0.0.1",
+    compatibility_level = 1,
+)
+
+bazel_dep(name = "rules_cc", version = "0.2.17")
+bazel_dep(name = "platforms", version = "1.1.0")
+
+halide = use_extension("//:extensions.bzl", "halide")
+use_repo(halide, "halide_prebuilt_pkg")
+
+register_toolchains("//internal:halide_prebuilt_toolchain")
