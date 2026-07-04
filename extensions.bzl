@@ -1,6 +1,6 @@
 """Module extensions for rules_halide"""
 
-load("//:prebuilt_pkg.bzl", "prebuilt_pkg")
+load("//internal:prebuilt_pkg.bzl", "prebuilt_pkg")
 load("//internal:versions.bzl", "DEFAULT_VERSION", "SUPPORTED_VERSIONS")
 
 def _halide_impl(module_ctx):

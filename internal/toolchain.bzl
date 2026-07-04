@@ -1,5 +1,7 @@
 """Halide toolchain definition"""
 
+load("@rules_cc//cc/common:cc_info.bzl", "CcInfo")
+
 HalideToolchainInfo = provider(
     doc = "Details of Halide toolchain",
     fields = {
