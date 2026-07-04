@@ -296,7 +296,7 @@
   "moduleExtensions": {
     "//:extensions.bzl%halide": {
       "general": {
-        "bzlTransitiveDigest": "Ob1XJCQ/T1xdRh0MYB6nsZJA7Pzz0XQTJ0BnLzLTqmQ=",
+        "bzlTransitiveDigest": "moelltbzx+MYqEGXtUjidEWzCzkzsRfTALNJCQVA70o=",
         "usagesDigest": "uf7/Sv0w+4KNSCC8wIlEO2RSUEKjrKkwakkqHCdoYcs=",
         "recordedInputs": [],
         "generatedRepoSpecs": {
@@ -318,7 +318,7 @@
               "sha256": {
                 "linux-x86_64": "be3bdd067acb9ee0d37d0830821113cd69174bee46da466a836d8829fef7cf91",
                 "linux-aarch64": "cdd42411bcbba682f73d7db0af69837c4857ee90f1727c67eb37fc9a98132385",
-                "macos-arm64": "164e5e6e238c7c35e54776d9911f2922d92078ea79a4a1f3c1c9cd5a251f3efa"
+                "macos-arm64": "164e5e6e238c7c35e54776d9911f2922d92078ef79a4a1f3c1c9cd5a251f3efa"
               },
               "strip_prefix": {
                 "linux-x86_64": "Halide-14.0.0-x86-64-linux",

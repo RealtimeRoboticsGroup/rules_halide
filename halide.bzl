@@ -75,6 +75,7 @@ def halide_library(name, src, function, args, visibility = None):
         name = name,
         srcs = [name + ".o"],
         hdrs = [name + ".h"],
+        includes = ["."] if native.package_name() != "" else [],
         visibility = visibility,
         deps = [
             "@rules_halide//:runtime",

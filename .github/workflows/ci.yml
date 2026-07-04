@@ -38,3 +38,45 @@ jobs:
 
       - name: Test Root Workspace
         run: bazel test --test_output=errors //...
+
+  test-debian:
+    name: Build & Test (Debian Trixie)
+    runs-on: ubuntu-latest
+    container:
+      image: debian:trixie-slim
+    steps:
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends \
+            ca-certificates \
+            curl \
+            git \
+            build-essential \
+            unzip \
+            python3 \
+            libxml2
+
+      - name: Install Bazelisk
+        run: |
+          ARCH=$(uname -m)
+          if [ "$ARCH" = "x86_64" ]; then
+            BAZELISK_ARCH="amd64"
+          elif [ "$ARCH" = "aarch64" ]; then
+            BAZELISK_ARCH="arm64"
+          fi
+          curl -s -L "https://github.com/bazelbuild/bazelisk/releases/latest/download/bazelisk-linux-${BAZELISK_ARCH}" -o /usr/local/bin/bazel
+          chmod +x /usr/local/bin/bazel
+
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup Bazel
+        uses: bazel-contrib/setup-bazel@0.9.1
+        with:
+          bazelisk-cache: true
+          disk-cache: ${{ github.workflow }}
+          repository-cache: true
+
+      - name: Test Root Workspace
+        run: bazel --batch test --test_output=errors //...

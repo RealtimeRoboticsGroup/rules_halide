@@ -16,7 +16,7 @@ SUPPORTED_VERSIONS = {
         },
         "macos-arm64": {
             "url": "https://github.com/halide/Halide/releases/download/v14.0.0/Halide-14.0.0-arm-64-osx-6b9ed2afd1d6d0badf04986602c943e287d44e46.tar.gz",
-            "sha256": "164e5e6e238c7c35e54776d9911f2922d92078ea79a4a1f3c1c9cd5a251f3efa",
+            "sha256": "164e5e6e238c7c35e54776d9911f2922d92078ef79a4a1f3c1c9cd5a251f3efa",
             "strip_prefix": "Halide-14.0.0-arm-64-osx",
         },
     },
