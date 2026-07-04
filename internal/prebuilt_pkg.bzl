@@ -13,7 +13,6 @@ def _prebuilt_pkg_impl(repository_ctx):
 
     build_file = repository_ctx.attr.build_file
     repository_ctx.symlink(build_file, "BUILD.bazel")
-    repository_ctx.file("host_info.bzl", "HOST_PLATFORM = '{}'\n".format(key))
 
     urls = repository_ctx.attr.urls[key]
     sha256 = repository_ctx.attr.sha256.get(key, "")
